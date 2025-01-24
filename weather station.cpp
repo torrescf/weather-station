@@ -5,8 +5,8 @@
 #include <LiquidCrystal_I2C.h>
 
 // Definições do DHT (Temperatura e Umidade)
-#define DHTPIN 2       // Pino onde o sensor DHT está conectado
-#define DHTTYPE DHT11  // Ou DHT22, dependendo do modelo
+#define DHTPIN 2       
+#define DHTTYPE DHT11  
 DHT dht(DHTPIN, DHTTYPE);
 
 // Inicialização do BMP280 (Pressão e Altitude)
@@ -16,12 +16,12 @@ Adafruit_BMP280 bmp;
 LiquidCrystal_I2C lcd(0x27, 16, 2); // Endereço 0x27 para LCD com I2C
 
 // Definições do anemômetro
-#define ANEMO_PIN 3 // Pino digital para ler os pulsos do anemômetro
+#define ANEMO_PIN 3 
 volatile unsigned int anemoPulsos = 0;
 unsigned long ultimaLeituraAnemo = 0;
 
 // Definições do sensor de luminosidade (Incidência solar)
-#define LDR_PIN A0 // Pino analógico conectado ao LDR
+#define LDR_PIN A0 
 
 // Função de interrupção para contar pulsos do anemômetro
 void contaPulsos() {
@@ -56,12 +56,12 @@ void loop() {
   float umidade = dht.readHumidity();
 
   // Leitura do BMP280
-  float pressao = bmp.readPressure() / 100.0F; // Converte para kPa
-  float altitudine = bmp.readAltitude(101.325); // Pressão ao nível do mar (em kPa)
+  float pressao = bmp.readPressure() / 100.0F; 
+  float altitudine = bmp.readAltitude(101.325); 
 
   // Leitura do anemômetro (velocidade do vento em m/s)
   unsigned long tempoAtual = millis();
-  float velocidadeVento = (anemoPulsos / 2.0) * 2.4; // Fórmula: 2.4 m/s por pulso
+  float velocidadeVento = (anemoPulsos / 2.0) * 2.4; 
   if (tempoAtual - ultimaLeituraAnemo >= 1000) {
     anemoPulsos = 0;
     ultimaLeituraAnemo = tempoAtual;
@@ -69,7 +69,7 @@ void loop() {
 
   // Leitura do sensor de luminosidade (LDR)
   int leituraLDR = analogRead(LDR_PIN);
-  float incidenciaSolar = map(leituraLDR, 0, 1023, 0, 100); // Converte para % (aproximado)
+  float incidenciaSolar = map(leituraLDR, 0, 1023, 0, 100); 
 
   // Envia os dados para o Serial Monitor
   Serial.print("Temperatura: ");
